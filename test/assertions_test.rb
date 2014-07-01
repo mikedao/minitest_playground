@@ -25,7 +25,7 @@ class AssertionsTest < Minitest::Test
 
     # assert_empty(obj, msg = nil)
     # Fails unless obj is empty.
-    def test_is_empty
+    def test_assert__empty
       array = [1]
       raise "Expected #{array.inspect} to be empty." unless array.empty?
     end
@@ -57,9 +57,9 @@ class AssertionsTest < Minitest::Test
     # assert_instance_of(cls, obj, msg = nil)
     # Fails unless obj is an instance of cls.
     def test_assert_instance_of
-      object = 1
+      object         = 1
       expected_class = String
-      actual_class = object.class
+      actual_class   = object.class
       unless expected_class == actual_class
         raise "Expected #{object.inspect} to be an instance of #{expected_class}, not #{actual_class}."
       end
@@ -115,8 +115,11 @@ class AssertionsTest < Minitest::Test
     # assert_predicate(o1, op, msg = nil)
     # things that should be true
     def test_assert_predicate
-      object = "zomg, so many characters!"
-      raise "Expected #{object.inspect} to be empty?." unless object.empty?
+      object    = 1
+      predicate = :even?
+      unless object.send predicate
+        raise "Expected #{object.inspect} to be #{predicate}"
+      end
     end
 
     def test_assert_predicate2
@@ -149,44 +152,83 @@ class AssertionsTest < Minitest::Test
   class NegativeAssertions < AssertionsTest
     # refute(test, msg = nil)
     # Fails if test is truthy.
-
-    # refute_empty(obj, msg = nil)
-    # Fails if obj is empty.
+    def test_refute
+      number = 2
+      raise "It should not have been 2!" if number == 2
+    end
 
     # refute_equal(exp, act, msg = nil)
     # Fails if exp == act.
+    def test_refute
+      number = 2
+      raise "Expected #{number} to not be equal to 2." if number == 2
+    end
 
-    # refute_in_delta(exp, act, delta = 0.001, msg = nil)
-    # For comparing Floats.
-
-    # refute_in_epsilon(a, b, epsilon = 0.001, msg = nil)
-    # For comparing Floats.
+    # refute_empty(obj, msg = nil)
+    # Fails if obj is empty.
+    def test_refute_empty
+      array = []
+      raise "Expected #{array.inspect} to not be empty." if array.empty?
+    end
 
     # refute_includes(collection, obj, msg = nil)
     # Fails if collection includes obj.
+    def test_refute_includes
+      array = [1, 18, 4, 9, 15, 3]
+      found_3 = false
+      array.each do |num|
+        found_3 = true if num == 3
+      end
+      raise "Expected #{array.inspect} to not include 3." if found_3
+    end
 
     # refute_instance_of(cls, obj, msg = nil)
     # Fails if obj is an instance of cls.
-
-    # refute_kind_of(cls, obj, msg = nil)
-    # Fails if obj is a kind of cls.
+    def test_refute_instance_of
+      object           = "abc"
+      unexpected_class = String
+      actual_class     = object.class
+      if unexpected_class == actual_class
+        raise "Expected #{object.inspect} to not be an instance of #{unexpected_class}, not #{actual_class}."
+      end
+    end
 
     # refute_match(matcher, obj, msg = nil)
     # Fails if matcher =~ obj.
+    def test_refute_match
+      regex  = /a/
+      string = "abc"
+      if regex =~ string
+        raise "Expected #{regex.inspect} to not match #{string.inspect}."
+      end
+    end
 
     # refute_nil(obj, msg = nil)
     # Fails if obj is nil.
+    def test_refute_nil
+      object = nil
+      raise "Expected #{object} to not be nil." if object.nil?
+    end
 
     # refute_operator(o1, op, o2 = UNDEFINED, msg = nil)
     # Fails if o1 is not op o2.
+    def test_refute_operator
+      object1  = 2
+      object2  = 5
+      operator = :<  # the symbol for <
+      if object1.send(operator, object2)
+        raise "Expected #{object1.inspect} to not be #{operator} #{object2.inspect}"
+      end
+    end
 
     # refute_predicate(o1, op, msg = nil)
     # For testing with predicates.
-
-    # refute_respond_to(obj, meth, msg = nil)
-    # Fails if obj responds to the message meth.
-
-    # refute_same(exp, act, msg = nil)
-    # Fails if exp is the same (by object identity) as act.
+    def test_refute_predicate
+      object    = 1
+      predicate = :odd?
+      if object.send predicate
+        raise "Expected #{object.inspect} to not be #{predicate}"
+      end
+    end
   end
 end
