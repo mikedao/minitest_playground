@@ -25,7 +25,7 @@ class AssertionsTest < Minitest::Test
 
     # assert_empty(obj, msg = nil)
     # Fails unless obj is empty.
-    def test_assert__empty
+    def test_assert_empty
       array = [1]
       raise "Expected #{array.inspect} to be empty." unless array.empty?
     end
@@ -159,7 +159,7 @@ class AssertionsTest < Minitest::Test
 
     # refute_equal(exp, act, msg = nil)
     # Fails if exp == act.
-    def test_refute
+    def test_refute_equal
       number = 2
       raise "Expected #{number} to not be equal to 2." if number == 2
     end
