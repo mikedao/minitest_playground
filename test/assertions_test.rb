@@ -104,7 +104,6 @@ class AssertionsTest < Minitest::Test
       ensure
         $stdout = initial_stdout
       end
-        $stdout = STDOUT
       expected_output = "black"
       actual_output   = fake_stdout.string
       unless expected_output == actual_output
