@@ -8,4 +8,14 @@ require_relative 'test_helper'
 
 class EachTestRunsInItsOwnInstanceTest < Minitest::Test
 
+  def test_one
+    @a = 2
+    assert @b != 2
+  end
+
+  def test_two
+    @b = 2
+    assert @a != 1
+  end
+
 end

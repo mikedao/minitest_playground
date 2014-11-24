@@ -1,9 +1,8 @@
+# load test suite
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 
-module ColorNames
-  def color_names
-    [:red, :green, :blue, :etc]
-  end
-end
+# load support code
+test_dir = File.expand_path '.', __dir__
+$LOAD_PATH.unshift test_dir

@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require 'support/color_names'
 
 # This class uses a module that we stuck in the test helper.
 # That's not a great place for support code, instead put it in
